@@ -109,7 +109,7 @@ document.querySelector("#picture").addEventListener("change", function(){
 });
 
 document.addEventListener("DOMContentLoaded", ()  => {
-  const recentImageDataUrl = localStorage.getItem(imageUrl);
+  const recentImageDataUrl = imageUrl;
 
   if (recentImageDataUrl){
     document.querySelector("#imgPreview").setAttribute("src", recentImageDataUrl);
