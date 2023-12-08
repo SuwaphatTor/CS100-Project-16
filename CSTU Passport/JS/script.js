@@ -119,6 +119,35 @@ async function submitForm(event) {
     return;
   }
 
+  // Function Validate Image
+  function validateImage(){
+    const imageInput = document.getElementById("picture"); const file = imageInput.files[0];
+    if (!file) {
+      return true;
+    }
+
+    const acceptedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+
+    if (!acceptedImageTypes.includes(file.type)) {
+      alert("Please upload a valid image file.");
+      return false;
+    }
+
+    return true;
+  }
+
+  // Create the image object to send to the backend
+  const imageInput = document.getElementById("picture"); const file = imageInput.files[0];
+  if (file) {
+    const reader = new FileReader();
+    
+    reader.onload = function () {
+        data.picture = new Blob([reader.result], { type: file.type });
+    };
+    
+    reader.readAsArrayBuffer(file);
+    }
+
   // Create the data object to send to the backend
   const formData = new FormData(event.target);
   const data = {
@@ -133,7 +162,8 @@ async function submitForm(event) {
     start_date: formData.get("startDate"),
     end_date: formData.get("endDate"),
     location: formData.get("location"),
-    description: formData.get("description")
+    description: formData.get("description"),
+    picture: formData.get("picture")
   };
 
   console.log(data);
