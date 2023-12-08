@@ -98,18 +98,9 @@
   display: none;
 }
 
-#check-home:checked ~ .form-container{
-  max-width: 600px;
-  max-height: 150%;
-  top: 3%;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 1;
-}
-
 #check-upload:checked ~ .form-container{
   max-width: 600px;
-  max-height: 150%;
+  max-height: 160%;
   top: 3%;
   left: 50%;
   transform: translateX(-50%);
