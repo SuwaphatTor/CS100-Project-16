@@ -99,45 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   populateActivityTypes(activityTypes);
 });
 
-const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-
-const app = express();
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, 'uploads');
-    
-    // Create the 'uploads' directory if it doesn't exist
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath);
-    }
-
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
-
-// Serve the HTML file
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// Handle the file upload
-app.post('/upload', upload.single('image'), (req, res) => {
-  res.json({ message: 'Image uploaded successfully.' });
-});
-
-app.listen(port, () => {
-  console.log(`Server is listening at http://localhost:${port}`);
-});
-
+// Function to submit the form
 // Function to submit the form
 async function submitForm(event) {
   event.preventDefault();
@@ -156,25 +118,6 @@ async function submitForm(event) {
     alert("End datetime should be after the start datetime.");
     return;
   }
-
-  // Function Validate Image
-  function validateImage() {
-    const imageInput = document.getElementById("picture");
-    const file = imageInput.files[0];
-   
-    if (!file) {
-       return true;
-    }
-   
-    const acceptedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
-   
-    if (!acceptedImageTypes.includes(file.type)) {
-       alert("Please upload a valid image file.");
-       return false;
-    }
-   
-    return true;
-   }
 
   // Create the data object to send to the backend
   const formData = new FormData(event.target);

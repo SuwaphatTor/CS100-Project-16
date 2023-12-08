@@ -119,12 +119,6 @@
           <textarea id="description" name="description" rows="4"></textarea>
         </div>
 
-        <!-- Picture Field -->
-        <div class="form-group">
-          <label for="picture">Picture</label>
-          <input type="file" id="picture" name="picture">
-        </div>
-
         <!-- Submit Button -->
         <div class="form-group">
           <input type="submit" value="Submit" />
@@ -135,30 +129,5 @@
 
   <!-- JavaScript -->
   <script src="script.js"></script>
-  <script>
-    function uploadImage() {
-      const input = document.getElementById('picture');
-      const file = input.files[0];
-
-      if (file) {
-          const formData = new FormData();
-          formData.append('image', file);
-
-          fetch('/upload', {
-            method: 'POST',
-            body: formData,
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Image uploaded successfully:', data);
-          })
-          .catch(error => {
-            console.error('Error uploading image:', error);
-          });
-      } else {
-        console.error('No file selected.');
-      }
-    }
-  </script>
 </body>
 </html>
