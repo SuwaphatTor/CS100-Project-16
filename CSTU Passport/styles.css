@@ -1,0 +1,54 @@
+*{
+  font-family: 'Kanit', sans-serif;
+}
+.nav-box {
+font-size: 15px;
+height: 70px;
+width: 210px;
+background: white;
+border-radius: 10px;
+box-shadow: 1px 0 50px #888;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+float: left;
+transform: translateX(-200px);
+position: fixed;
+transition: 0.7s;
+cursor: pointer;
+}
+
+#nav-box-activity .bi {
+text-shadow: 0 0 0px rgba(18, 61, 61, 0),
+               0 0 0px rgba(31, 83, 83, 0);
+animation: blinking2 1.5s infinite alternate;
+}
+
+@keyframes blinking2 {
+100%{
+  text-shadow: 0 0 4px #f3346793,
+               0 0 4px #f3346793;
+}
+}
+
+
+#nav-box-activity .bi {
+position: relative;
+left: 60px;
+color: #f33466;
+}
+
+
+#nav-box-activity {
+top: 5%;
+}
+
+.nav-box:hover {
+transform: translateX(-15px);
+}
+
+.nav-box h1 {
+font-size: 20px;
+color: #f33466;
+}
