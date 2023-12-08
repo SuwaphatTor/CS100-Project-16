@@ -94,16 +94,15 @@ function populateActivityTypes(activityTypes) {
 }
 
 
-let recentImage;
-
 document.querySelector("#picture").addEventListener("change", function(){
   const reader = new FileReader();
-  var imageUrl = document.getElementById("image-url");
-
   reader.addEventListener("load", () => {
-    recentImage = reader.result;
-    localStorage.setItem("recent-image", recentImage);
-    imageUrl.value = recentImage;
+    localStorage.setItem("recent-image", reader.result);
+    const imageUrl = {
+      image: reader.result
+    };
+    
+    console.log(imageUrl);
   });
 
   reader.readAsDataURL(this.files[0]);
@@ -176,8 +175,7 @@ async function submitForm(event) {
     start_date: formData.get("startDate"),
     end_date: formData.get("endDate"),
     location: formData.get("location"),
-    description: formData.get("description"),
-    picture: formData.get("image-url")
+    description: formData.get("description")
   };
 
   console.log(data);
