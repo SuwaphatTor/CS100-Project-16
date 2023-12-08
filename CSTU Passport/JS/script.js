@@ -119,24 +119,66 @@ async function submitForm(event) {
     return;
   }
 
-  // Create the data object to send to the backend
-  const formData = new FormData(event.target);
-  const data = {
-    first_name: formData.get("fullname").split(" ")[0],
-    last_name: formData.get("fullname").split(" ")[1],
-    student_id: parseInt(formData.get("studentID")),
-    email: formData.get("email"),
-    title: formData.get("workTitle"),
-    type_of_work_id: parseInt(formData.get("activityType")),
-    academic_year: parseInt(formData.get("academicYear")) - 543,
-    semester: parseInt(formData.get("semester")),
-    start_date: formData.get("startDate"),
-    end_date: formData.get("endDate"),
-    location: formData.get("location"),
-    description: formData.get("description"),
-    picture: formData.get("picture")
-  };
+  // Function Validate Image
+  function validateImage() {
+    const imageInput = document.getElementById("picture");
+    const file = imageInput.files[0];
 
+    if (!file) {
+      return true;
+    }
+
+    const acceptedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+
+    if (!acceptedImageTypes.includes(file.type)) {
+      alert("Please upload a valid image file.");
+      return false;
+    }
+
+    return true;
+  }
+
+  // Add validation for image
+  if (!validateImage()) {
+    return;
+  }
+
+   // Add image object to data object
+  const imageInput = document.getElementById("picture");
+  const file = imageInput.files[0];
+
+  if (file) {
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        data.picture = new Blob([reader.result], { type: file.type });
+        createFormData();
+      };
+
+      reader.readAsArrayBuffer(file);
+  } else {
+  createFormData();
+  }
+
+  function createFormData() {
+    // Create the data object to send to the backend
+    const formData = new FormData(event.target);
+    const data = {
+      first_name: formData.get("fullname").split(" ")[0],
+      last_name: formData.get("fullname").split(" ")[1],
+      student_id: parseInt(formData.get("studentID")),
+      email: formData.get("email"),
+      title: formData.get("workTitle"),
+      type_of_work_id: parseInt(formData.get("activityType")),
+      academic_year: parseInt(formData.get("academicYear")) - 543,
+      semester: parseInt(formData.get("semester")),
+      start_date: formData.get("startDate"),
+      end_date: formData.get("endDate"),
+      location: formData.get("location"),
+      description: formData.get("description"),
+      picture: formData.get("picture")
+    };
+  
   console.log(data);
 
   try {
