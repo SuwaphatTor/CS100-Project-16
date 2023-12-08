@@ -66,19 +66,6 @@
             <option value="" disabled selected>Select an option</option>
           </select>
         </div>
-        <!-- <div class="form-group">
-          <label for="activityType">Type of Work/Activity</label>
-          <select id="activityType" name="activityType">
-            <option value="" disabled selected>Select an option</option>
-            <option value="Course">Course</option>
-            <option value="Activity">Activity</option>
-            <option value="Work">Work</option>
-            <option value="Research">Research</option>
-            <option value="Sports">Sports</option>
-            <option value="Competition">Competition</option>
-            <option value="Computer Science">Computer Science</option>
-          </select>
-        </div> -->
 
         <!-- Academic Year Field -->
         <div class="form-group">
@@ -150,5 +137,30 @@
 
   <!-- JavaScript -->
   <script src="script.js"></script>
+  <script>
+    function uploadImage() {
+      const input = document.getElementById('picture');
+      const file = input.files[0];
+
+      if (file) {
+          const formData = new FormData();
+          formData.append('image', file);
+
+          fetch('/upload', {
+            method: 'POST',
+            body: formData,
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Image uploaded successfully:', data);
+          })
+          .catch(error => {
+            console.error('Error uploading image:', error);
+          });
+      } else {
+        console.error('No file selected.');
+      }
+    }
+  </script>
 </body>
 </html>

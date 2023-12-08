@@ -11,6 +11,46 @@ const config = {
 };
 const port = 8000;
 
+
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+const app = express();
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadPath = path.join(__dirname, 'uploads');
+    
+    // Create the 'uploads' directory if it doesn't exist
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath);
+    }
+
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+// Serve the HTML file
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Handle the file upload
+app.post('/upload', upload.single('image'), (req, res) => {
+  res.json({ message: 'Image uploaded successfully.' });
+});
+
+app.listen(port, () => {
+  console.log(`Server is listening at http://localhost:${port}`);
+});
+
 // Function to validate Firstname and Lastname
 function validateName() {
   const fullnameInput = document.getElementById("fullname");
@@ -93,51 +133,12 @@ function populateActivityTypes(activityTypes) {
   }
 }
 
-
-document.querySelector("#picture").addEventListener("change", function(){
-  const reader = new FileReader();
-  reader.addEventListener("load", () => {
-    localStorage.setItem("recent-image", reader.result);
-    const imageUrl = {
-      image: reader.result
-    };
-    try{
-          const response = await fetch(`http://${window.location.hostname}:${port}/url`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(imageUrl),
-          });
-
-          if (response.ok) {
-            const responseData = await response.json();
-            document.querySelector("#imgPreview").setAttribute("src", responseData);
-          } else {
-            console.error("Failed to fetch imageurl.");
-            return [];
-          }
-      }
-  });
-
-  reader.readAsDataURL(this.files[0]);
-});
-
-// document.addEventListener("DOMContentLoaded", ()  => {
-//   const recentImageDataUrl = imageUrl;
-
-//   if (recentImageDataUrl){
-//     document.querySelector("#imgPreview").setAttribute("src", recentImageDataUrl);
-//   }
-// });
-
 // Event listener when the page content has finished loading
 document.addEventListener("DOMContentLoaded", async () => {
   const activityTypes = await fetchActivityTypes();
   populateActivityTypes(activityTypes);
 });
 
-// Function to submit the form
 // Function to submit the form
 async function submitForm(event) {
   event.preventDefault();
