@@ -6,10 +6,6 @@
   Description: JS code of CSTU Passport that validate with JS
 */
 
-document.getElementById("button1").addEventListener("click", function() {
-  window.location.href = '../index.html';
-});
-
 const config = {
   backendUrl: "http://localhost:8000/", // Default backend URL
 };
