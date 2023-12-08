@@ -93,11 +93,15 @@ function populateActivityTypes(activityTypes) {
   }
 }
 
+
+let recentImage;
+
 document.querySelector("#picture").addEventListener("change", function(){
   const reader = new FileReader();
 
   reader.addEventListener("load", () => {
-    localStorage.setItem("recent-image", reader.result);
+    recentImage = reader.result;
+    localStorage.setItem("recent-image", recentImage);
   });
 
   reader.readAsDataURL(this.files[0]);
@@ -171,7 +175,7 @@ async function submitForm(event) {
     end_date: formData.get("endDate"),
     location: formData.get("location"),
     description: formData.get("description"),
-    picture: formData.get("recent-image")
+    picture: recentImage
   };
 
   console.log(data);
