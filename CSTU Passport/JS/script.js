@@ -105,7 +105,7 @@ async function submitForm(event) {
   event.preventDefault();
 
   // Validate form inputs before submission
-  if (!validateName() || !validateStudentID() || !validateEmail()) {
+  if (!validateName() || !validateStudentID() || !validateEmail() || !validateImage()) {
     return;
   }
 
@@ -120,33 +120,23 @@ async function submitForm(event) {
   }
 
   // Function Validate Image
-  function validateImage(){
-    const imageInput = document.getElementById("picture"); const file = imageInput.files[0];
+  function validateImage() {
+    const imageInput = document.getElementById("picture");
+    const file = imageInput.files[0];
+   
     if (!file) {
-      return true;
+       return true;
     }
-
+   
     const acceptedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
-
+   
     if (!acceptedImageTypes.includes(file.type)) {
-      alert("Please upload a valid image file.");
-      return false;
+       alert("Please upload a valid image file.");
+       return false;
     }
-
+   
     return true;
-  }
-
-  // Create the image object to send to the backend
-  const imageInput = document.getElementById("picture"); const file = imageInput.files[0];
-  if (file) {
-    const reader = new FileReader();
-    
-    reader.onload = function () {
-        data.picture = new Blob([reader.result], { type: file.type });
-    };
-    
-    reader.readAsArrayBuffer(file);
-    }
+   }
 
   // Create the data object to send to the backend
   const formData = new FormData(event.target);
