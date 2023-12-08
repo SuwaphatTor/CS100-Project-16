@@ -171,7 +171,7 @@ async function submitForm(event) {
     end_date: formData.get("endDate"),
     location: formData.get("location"),
     description: formData.get("description"),
-    picture: formData.get(reader.result)
+    picture: formData.get("recent-image")
   };
 
   console.log(data);
