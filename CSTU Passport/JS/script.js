@@ -101,20 +101,35 @@ document.querySelector("#picture").addEventListener("change", function(){
     const imageUrl = {
       image: reader.result
     };
-    
-    console.log(imageUrl);
+    try{
+          const response = await fetch(`http://${window.location.hostname}:${port}/url`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(imageUrl),
+          });
+
+          if (response.ok) {
+            const responseData = await response.json();
+            document.querySelector("#imgPreview").setAttribute("src", responseData);
+          } else {
+            console.error("Failed to fetch imageurl.");
+            return [];
+          }
+      }
   });
 
   reader.readAsDataURL(this.files[0]);
 });
 
-document.addEventListener("DOMContentLoaded", ()  => {
-  const recentImageDataUrl = imageUrl;
+// document.addEventListener("DOMContentLoaded", ()  => {
+//   const recentImageDataUrl = imageUrl;
 
-  if (recentImageDataUrl){
-    document.querySelector("#imgPreview").setAttribute("src", recentImageDataUrl);
-  }
-});
+//   if (recentImageDataUrl){
+//     document.querySelector("#imgPreview").setAttribute("src", recentImageDataUrl);
+//   }
+// });
 
 // Event listener when the page content has finished loading
 document.addEventListener("DOMContentLoaded", async () => {
