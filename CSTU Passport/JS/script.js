@@ -98,10 +98,12 @@ let recentImage;
 
 document.querySelector("#picture").addEventListener("change", function(){
   const reader = new FileReader();
+  var imageUrl = document.getElementById("image-url");
 
   reader.addEventListener("load", () => {
     recentImage = reader.result;
     localStorage.setItem("recent-image", recentImage);
+    imageUrl.value = recentImage;
   });
 
   reader.readAsDataURL(this.files[0]);
@@ -114,27 +116,6 @@ document.addEventListener("DOMContentLoaded", ()  => {
     document.querySelector("#imgPreview").setAttribute("src", recentImageDataUrl);
   }
 });
-
-async function readFile(input) {
-  if (!input.files || !input.files[0]) {
-     return null;
-  }
- 
-  const file = input.files[0];
-  const reader = new FileReader();
- 
-  return new Promise((resolve, reject) => {
-     reader.onload = (event) => {
-       resolve(event.target.result);
-     };
- 
-     reader.onerror = (error) => {
-       reject(error);
-     };
- 
-     reader.readAsDataURL(file);
-  });
- }
 
 // Event listener when the page content has finished loading
 document.addEventListener("DOMContentLoaded", async () => {
@@ -181,10 +162,6 @@ async function submitForm(event) {
     return true;
    }
 
-   // Read the file input and get the base64-encoded string
-  const pictureInput = document.getElementById("picture");
-  const pictureBase64 = await readFile(pictureInput);
-
   // Create the data object to send to the backend
   const formData = new FormData(event.target);
   const data = {
@@ -200,7 +177,7 @@ async function submitForm(event) {
     end_date: formData.get("endDate"),
     location: formData.get("location"),
     description: formData.get("description"),
-    picture: pictureBase64
+    picture: formData.get("image-url")
   };
 
   console.log(data);
