@@ -11,46 +11,6 @@ const config = {
 };
 const port = 8000;
 
-
-const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-
-const app = express();
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, 'uploads');
-    
-    // Create the 'uploads' directory if it doesn't exist
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath);
-    }
-
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
-
-// Serve the HTML file
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// Handle the file upload
-app.post('/upload', upload.single('image'), (req, res) => {
-  res.json({ message: 'Image uploaded successfully.' });
-});
-
-app.listen(port, () => {
-  console.log(`Server is listening at http://localhost:${port}`);
-});
-
 // Function to validate Firstname and Lastname
 function validateName() {
   const fullnameInput = document.getElementById("fullname");
@@ -137,6 +97,45 @@ function populateActivityTypes(activityTypes) {
 document.addEventListener("DOMContentLoaded", async () => {
   const activityTypes = await fetchActivityTypes();
   populateActivityTypes(activityTypes);
+});
+
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+const app = express();
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadPath = path.join(__dirname, 'uploads');
+    
+    // Create the 'uploads' directory if it doesn't exist
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath);
+    }
+
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+// Serve the HTML file
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Handle the file upload
+app.post('/upload', upload.single('image'), (req, res) => {
+  res.json({ message: 'Image uploaded successfully.' });
+});
+
+app.listen(port, () => {
+  console.log(`Server is listening at http://localhost:${port}`);
 });
 
 // Function to submit the form
