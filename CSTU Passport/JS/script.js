@@ -11,20 +11,57 @@ const config = {
 };
 const port = 8000;
 
-// Function to validate Firstname and Lastname
-function validateName() {
-  const fullnameInput = document.getElementById("fullname");
-  const names = fullnameInput.value.trim().split(" ");
-  const errorElement = document.getElementById("fullnameError");
-
-  if (names.length !== 2) {
-    errorElement.textContent = "Please enter both your Firstname and Lastname.";
-    return false;
-  } else {
+fetch(`http://${window.location.hostname}:${port}/getrecords`)
+  .then(res => {
+    return res.json();
+  })
+  .then(data => {
+    data.forEach(record => {
+      const markup = `<div class="col">
+                        <span>${record.first_name}</span>
+                        <span>${record.last_name}</span>
+                        <h4><b>SID :</b> ${record.student_id}</h4>
+                        <h4><b>Email :</b> ${record.email}</h4>
+                        <h4><b>Title :</b> ${record.title}</h4>
+                        <h4><b>Type of work :</b> ${record.type_of_work_id}</h4>
+                        <h4><b>Academic year :</b> ${record.academic_year}</h4>
+                        <h4><b>Semester :</b> ${record.semester}</h4>
+                        <h4><b>Start date :</b> ${record.start_date}</h4>
+                        <h4><b>End date :</b> ${record.end_date}</h4>
+                        <h4><b>Location :</b> ${record.location}</h4>
+                        <h4><b>Description :</b> ${record.description}</h4>
+                      </div>
+                      `;
+      
+          document.querySelector('.row').insertAdjacentHTML('beforeend', markup);
+    });
+  })
+  .catch(error => console.log(error));
+  
+  function validateName() {
+    const fullnameInput = document.getElementById("fullname");
+    const names = fullnameInput.value.trim().split(" ");
+    const errorElement = document.getElementById("fullnameError");
+  
+    if (names.length !== 2) {
+      errorElement.textContent = "Please enter both your Firstname and Lastname.";
+      return false;
+    }
+  
+    const [firstName, lastName] = names;
+  
+    if (!isFirstLetterUppercase(firstName) || !isFirstLetterUppercase(lastName)) {
+      errorElement.textContent = "First letter of both Firstname and Lastname should be uppercase.";
+      return false;
+    }
+  
     errorElement.textContent = ""; // Clear the error message when valid
+    return true;
   }
-  return true;
-}
+  
+  function isFirstLetterUppercase(name) {
+    return /^[A-Z]/.test(name);
+  }
 
 // Function to validate Student ID
 function validateStudentID() {
@@ -87,7 +124,6 @@ function populateActivityTypes(activityTypes) {
 
   for (const type of activityTypes) {
     const option = document.createElement("option");
-    option.value = type.id;
     option.textContent = type.value;
     activityTypeSelect.appendChild(option);
   }
@@ -100,12 +136,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // Function to submit the form
-// Function to submit the form
 async function submitForm(event) {
   event.preventDefault();
 
   // Validate form inputs before submission
-  if (!validateName() || !validateStudentID() || !validateEmail() || !validateImage()) {
+  if (!validateName() || !validateStudentID() || !validateEmail()) {
     return;
   }
 
@@ -127,7 +162,7 @@ async function submitForm(event) {
     student_id: parseInt(formData.get("studentID")),
     email: formData.get("email"),
     title: formData.get("workTitle"),
-    type_of_work_id: parseInt(formData.get("activityType")),
+    type_of_work_id: formData.get("activityType"),
     academic_year: parseInt(formData.get("academicYear")) - 543,
     semester: parseInt(formData.get("semester")),
     start_date: formData.get("startDate"),
@@ -152,13 +187,45 @@ async function submitForm(event) {
       const responseData = await response.json();
       console.log("Form data submitted successfully!");
 
-      // Format JSON data for display
-      const formattedData = Object.entries(responseData.data)
-        .map(([key, value]) => `"${key}": "${value}"`)
-        .join("\n");
-
       // Display success message with formatted data
-      alert(responseData.message + "\n" + formattedData);
+    //fetch and create html tag for display
+      fetch(`http://${window.location.hostname}:${port}/getrecords`)
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        data.forEach(record => {
+          const markup = `<div class="col">
+                            <span>${record.first_name}</span>
+                            <span>${record.last_name}</span>
+                            <h4><b>SID :</b> ${record.student_id}</h4>
+                            <h4><b>Email :</b> ${record.email}</h4>
+                            <h4><b>Title :</b> ${record.title}</h4>
+                            <h4><b>Type of work :</b> ${record.type_of_work_id}</h4>
+                            <h4><b>Academic year :</b> ${record.academic_year}</h4>
+                            <h4><b>Semester :</b> ${record.semester}</h4>
+                            <h4><b>Start date :</b> ${record.start_date}</h4>
+                            <h4><b>End date :</b> ${record.end_date}</h4>
+                            <h4><b>Location :</b> ${record.location}</h4>
+                            <h4><b>Description :</b> ${record.description}</h4>
+                          </div>
+                          `;
+          
+              document.querySelector('.row').insertAdjacentHTML('beforeend', markup);
+        });
+      })
+      .catch(error => console.log(error));
+
+      alert("submit success!!!");
+
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      function uncheckbox() {
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = false;
+        });
+      }
+
+      uncheckbox();
 
       document.getElementById("myForm").reset();
     } else {
@@ -181,3 +248,5 @@ document
   .getElementById("studentID")
   .addEventListener("input", validateStudentID);
 document.getElementById("email").addEventListener("input", validateEmail);
+
+

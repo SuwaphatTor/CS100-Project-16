@@ -9,8 +9,14 @@
 /* Set the font family for the entire body */
 *{
   font-family: 'Kanit', sans-serif;
+  margin: 0;
+  box-sizing: border-box;
 }
 
+body {
+  overflow-x: hidden;
+  height: auto;
+}
 /* Styling for navigator */
 .nav-box {
   font-size: 15px;
@@ -24,10 +30,11 @@
   justify-content: center;
   align-items: center;
   float: left;
-  transform: translateX(-200px);
+  transform: translateX(-193px);
   position: fixed;
   transition: 0.7s;
   cursor: pointer;
+  z-index: 999;
 }
 
 #nav-box-home .bi {
@@ -82,7 +89,7 @@
 }
 
 .nav-box:hover {
-  transform: translateX(-15px);
+  transform: translateX(-10px);
 }
 
 .nav-box h1 {
@@ -99,8 +106,8 @@
 }
 
 #check-upload:checked ~ .form-container{
-  max-width: 600px;
-  max-height: 160%;
+  max-width: 60%;
+  max-height: 90%;
   top: 3%;
   left: 50%;
   transform: translateX(-50%);
@@ -121,7 +128,8 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 20px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
   flex-wrap: nowrap;
   transition: 1.5s;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
@@ -129,10 +137,17 @@
   -webkit-backdrop-filter: blur(10px);
   border: rgba(255, 255, 255, 0.18);
   box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.37);
-  z-index: -9999;
+  z-index: 99;
+  color: white;
+  text-shadow: black 0 0 2px,
+                black 0 0 2px,
+                black 0 0 2px;
 }
 
-
+.form-container h1:first-child {
+  text-align: center;
+  font-size: 50px;
+}
 
 /* Center-align the heading and add margin at the bottom */
 .form-container h1 {
@@ -176,18 +191,27 @@
 
 /* Styling for the submit button */
 .form-group input[type="submit"] {
-  background-color: #4caf50;
-  color: white;
+  background-color: white;
+  color: black;
   padding: 10px 15px;
-  border: none;
+  border: 1px solid black;
   border-radius: 4px;
   cursor: pointer;
+  transition: 0.5s;
+}
+
+.form-group input[type="submit"]:hover {
+  background-color: #f33466;
+  color: white;
+  border: none;
+  box-shadow: 0 5px 8px 0 #f3346793, 0 5px 30px 1px #ba1c46b3;
 }
 
 /* Styling for small helper text */
 .form-group small {
-  font-size: 12px;
-  color: #888;
+  font-size: 14px;
+  color: rgb(20, 20, 20);
+  text-shadow: none;
 }
 
 /* New styles for error messages */
@@ -202,5 +226,79 @@
   color: red;
   display: block;
   margin-top: 5px;
+  text-shadow: none;
+}
+.banner-bg {
+  z-index: -999;
+  width: 100%;
+  height: 40vh;
+  position: absolute;
+  object-fit: cover;
+  object-position: top;
 }
 
+.banner {
+  height: 40vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  overflow: hidden;
+  z-index: 99;
+  box-shadow: #02020273 0 10px 10px;
+}
+
+.banner h4 {
+  color: white;
+  font-size: 70px;
+  z-index: -99;
+}
+
+.activity-container {
+  margin-top: 3%;
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.row {
+  margin-top: 2%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.col {
+  width: 370px;
+  background: linear-gradient(135deg, #f33466a8, #fdabc175);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  margin-bottom: 5%;
+  padding: 20px 20px;
+  margin: 0 15px;
+  color: #1e1111;
+  box-sizing: border-box;
+  transition: 0.5s;
+}
+
+.col:hover {
+  box-shadow: 0px 8px 32px #f33466d9;
+  cursor: pointer;
+}
+
+.row span {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.row h4 {
+  font-size: 20px;
+  font-weight: 400;
+}
