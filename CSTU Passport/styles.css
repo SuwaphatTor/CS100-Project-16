@@ -10,6 +10,7 @@
 body{
   overflow-x: hidden;
   background: white;
+  height: 100vh;
 }
 
 .nav-box {
@@ -110,6 +111,7 @@ h2 {
   justify-content: center;
   align-items: center;
   overflow-y: hidden;
+  height: auto;
 }
 
 /************ailgn center****************/
@@ -227,13 +229,14 @@ button a:hover {
 }
 
 footer {
+  width: 100%;
   text-align: center;
   background-color: #1a1a1a;
   color: whitesmoke;
   padding: 20px;
   font-size: 15px;
-  bottom: 10px;
-  clear: both;
+  position: relative;
+  bottom: 0;
 }
 footer span {
   color: lightgray;
