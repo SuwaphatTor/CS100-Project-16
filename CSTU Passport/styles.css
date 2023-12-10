@@ -10,6 +10,7 @@
 body{
   overflow-x: hidden;
   background: white;
+  height: 100vh;
 }
 
 .nav-box {
@@ -232,8 +233,9 @@ footer {
   color: whitesmoke;
   padding: 20px;
   font-size: 15px;
-  bottom: 10px;
-  clear: both;
+  width: 100%;
+  position: relative;
+  bottom: 0;
 }
 footer span {
   color: lightgray;
